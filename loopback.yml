@@ -1,0 +1,25 @@
+
+---
+- name: Configure loopbacks using variables
+  hosts: routers
+  gather_facts: false
+  become: true
+  become_method: enable
+
+  tasks:
+    - name: Configure Loopback99
+      cisco.ios.ios_config:
+        parents: interface Loopback99
+        lines:
+          - description Managed-by-Ansible
+          - "ip address {{ loopback_ip }} 255.255.255.255"
+
+    - name: Verify Loopback99
+      cisco.ios.ios_command:
+        commands:
+          - show ip interface brief | include Loopback99
+      register: output
+
+    - name: Display results
+      ansible.builtin.debug:
+        var: output.stdout[0]

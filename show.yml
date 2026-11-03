@@ -1,0 +1,22 @@
+---
+- name: My first Cisco automation playbook
+  hosts: routers
+  gather_facts: false
+
+  tasks:
+    - name: Collect router information
+      cisco.ios.ios_command:
+        commands:
+          - show version
+          - show ip interface brief
+      register: output
+
+    - name: Display show version
+      ansible.builtin.debug:
+        var: output.stdout[0]
+
+    - name: Display show ip interface brief
+      ansible.builtin.debug:
+        var: output.stdout[1]
+
+
