@@ -2,7 +2,10 @@
 ---
 - name: Configure Cisco routers
   hosts: routers
+
+  # (false) Skip automatic fact gathering and proceed directly to my tasks.
   gather_facts: false
+
   become: true
   become_method: enable
 
